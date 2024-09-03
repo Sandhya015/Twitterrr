@@ -13,27 +13,37 @@ import Divider from "@mui/material/Divider";
 import DoneIcon from "@mui/icons-material/Done";
 import Button from "@mui/material/Button";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { Avatar } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 import "./sidebar.css";
 import Customlink from "./Customlink";
 import Sidebaroption from "./Sidebaroption";
 import { useNavigate } from "react-router-dom";
-import useLoggedinuser from "../../hooks/useLoggedinuser"
+import useLoggedinuser from "../../hooks/useLoggedinuser";
+import UploadModal from "./UploadModal"; // Import the UploadModal component
+
 const Sidebar = ({ handlelogout, user }) => {
   const [anchorE1, setanchorE1] = useState(null);
   const openmenu = Boolean(anchorE1);
-  const [ loggedinuser] = useLoggedinuser();
+  const [loggedinuser] = useLoggedinuser();
   const navigate = useNavigate();
+  const [openUploadModal, setOpenUploadModal] = useState(false);
+
   const handleclick = (e) => {
     setanchorE1(e.currentTarget);
-    // console.log(e.currentTarget);
   };
+
   const handleclose = () => {
     setanchorE1(null);
   };
+
+  const handleTweetClick = () => {
+    setOpenUploadModal(true);
+  };
+
+  const handleModalClose = () => {
+    setOpenUploadModal(false);
+  };
+
   const result = user?.email?.split("@")[0];
 
   return (
@@ -63,16 +73,21 @@ const Sidebar = ({ handlelogout, user }) => {
       <Customlink to="/home/more">
         <Sidebaroption Icon={MoreIcon} text="More" />
       </Customlink>
-      <Button variant="outlined" className="sidebar__tweet" fullWidth>
+      <Button
+        variant="outlined"
+        className="sidebar__tweet"
+        fullWidth
+        onClick={handleTweetClick} // Open the modal on Tweet button click
+      >
         Tweet
       </Button>
+      <UploadModal open={openUploadModal} handleClose={handleModalClose} />
       <div className="Profile__info">
         <Avatar
           src={
             loggedinuser[0]?.profileImage
               ? loggedinuser[0].profileImage
               : user && user.photoURL
-            // : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
           }
         />
         <div className="user__info">
@@ -109,7 +124,6 @@ const Sidebar = ({ handlelogout, user }) => {
                 loggedinuser[0]?.profileImage
                   ? loggedinuser[0]?.profileImage
                   : user && user.photoURL
-                  // : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
               }
             />
             <div className="user__info subUser__info">
