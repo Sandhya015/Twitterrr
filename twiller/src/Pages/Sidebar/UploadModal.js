@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
 import { UploadFile } from "@mui/icons-material";
-//css file outside
+
 const UploadModal = ({ open, handleClose, onImageUpload }) => {
   const [selectedImage, setSelectedImage] = useState(null);
 
