@@ -7,5 +7,5 @@ const Bookmark = () => {
     </div>
   )
 }
-
+//to export the content
 export default Bookmark
